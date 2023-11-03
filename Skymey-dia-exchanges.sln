@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34205.153
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skymey-dia-exchanges", "Skymey-dia-exchanges\Skymey-dia-exchanges.csproj", "{D475094B-BCFB-4E44-A66A-A7BBFC8E8861}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D475094B-BCFB-4E44-A66A-A7BBFC8E8861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D475094B-BCFB-4E44-A66A-A7BBFC8E8861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D475094B-BCFB-4E44-A66A-A7BBFC8E8861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D475094B-BCFB-4E44-A66A-A7BBFC8E8861}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1AC62D40-33DB-4EE7-A02D-8E1F78610005}
+	EndGlobalSection
+EndGlobal
