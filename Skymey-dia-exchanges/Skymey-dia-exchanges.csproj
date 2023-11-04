@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="mongocsharpdriver" Version="2.22.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.22.0" />
     <PackageReference Include="Nancy" Version="2.0.0" />
     <PackageReference Include="RestSharp" Version="110.2.0" />
   </ItemGroup>
