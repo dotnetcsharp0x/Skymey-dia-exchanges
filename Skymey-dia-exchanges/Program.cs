@@ -43,7 +43,6 @@ namespace Skymey_dia_exchanges
                     }
                     
                 }
-                //collection2.BulkWriteAsync(ex);
                 if (listWrites2.Count() > 0)
                 {
                     await col.BulkWriteAsync(listWrites2);
