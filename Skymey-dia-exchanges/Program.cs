@@ -19,38 +19,34 @@ namespace Skymey_dia_exchanges
         {
             while(true)
             {
+                #region DIA
                 var client = new RestClient("https://api.diadata.org/v1/exchanges");
                 var request = new RestRequest("https://api.diadata.org/v1/exchanges", Method.Get);
                 request.AddHeader("Content-Type", "application/json");
                 var r = client.Execute(request).Content;
-                List<Exchange> ex = new JavaScriptSerializer().Deserialize<List<Exchange>>(r);
-                MongoContext con = new MongoContext("mongodb://127.0.0.1:27017");
-                var col = await con.GetCollection("exchanges");
+                List<Exchanges> ex = new JavaScriptSerializer().Deserialize<List<Exchanges>>(r);
+                #endregion
 
-                List<InsertOneModel<BsonDocument>> listWrites = new List<InsertOneModel<BsonDocument>>();
-                List<ReplaceOneModel<BsonDocument>> listWrites2 = new List<ReplaceOneModel<BsonDocument>>();
+                MongoClient _mongoClient = new MongoClient("mongodb://127.0.0.1:27017");
+                ApplicationContext db = ApplicationContext.Create(_mongoClient.GetDatabase("skymey"));
                 foreach (var item in ex)
                 {
-                    var filter = new BsonDocument { { "Name", item.Name } };
-                    List<BsonDocument> users = await col.Find(filter).ToListAsync();
-                    if (users.Count == 0)
+                    item._id = ObjectId.GenerateNewId();
+                    Console.WriteLine(item.Name);
+                    var exchange = (from i in db.Exchanges select i).FirstOrDefault();
+                    if(exchange == null)
                     {
-                        listWrites.Add(new InsertOneModel<BsonDocument>(item.ToBsonDocument()));
+                        await db.Exchanges.AddAsync(item);
                     }
                     else
                     {
-                        listWrites2.Add(new ReplaceOneModel<BsonDocument>(new BsonDocument(item.ToBsonDocument()), new BsonDocument(item.ToBsonDocument())));
+                        exchange.Trades = item.Trades;
+                        exchange.Volume24h = item.Volume24h;
+                        exchange.Pairs = item.Pairs;
+                        db.Exchanges.Update(item);
                     }
-                    
                 }
-                if (listWrites2.Count() > 0)
-                {
-                    await col.BulkWriteAsync(listWrites2);
-                }
-                if (listWrites.Count() > 0)
-                {
-                    await col.BulkWriteAsync(listWrites);
-                }
+                await db.SaveChangesAsync();
                 int hours = 24;                
                 Thread.Sleep(1000*60*60*hours);
             }
