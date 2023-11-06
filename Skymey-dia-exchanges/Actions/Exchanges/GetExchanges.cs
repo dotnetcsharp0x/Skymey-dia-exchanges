@@ -9,6 +9,7 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using Skymey_main_lib;
 
 namespace Skymey_dia_exchanges.Actions.Exchanges
 {
@@ -32,7 +33,7 @@ namespace Skymey_dia_exchanges.Actions.Exchanges
                 #region DIA
                 _request.AddHeader("Content-Type", "application/json");
                 var r = _client.Execute(_request).Content;
-                List<Skymey_dia_exchanges.Models.Exchanges> ex = new JavaScriptSerializer().Deserialize<List<Skymey_dia_exchanges.Models.Exchanges>>(r);
+                List<Skymey_main_lib.Models.Exchanges> ex = new JavaScriptSerializer().Deserialize<List<Skymey_main_lib.Models.Exchanges>>(r);
                 #endregion
                 foreach (var item in ex)
                 {

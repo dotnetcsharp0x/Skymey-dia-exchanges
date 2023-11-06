@@ -19,4 +19,10 @@
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Skymey-main-lib">
+      <HintPath>..\..\Skymey-main-lib\Skymey-main-lib\bin\Release\net8.0\publish\Skymey-main-lib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
