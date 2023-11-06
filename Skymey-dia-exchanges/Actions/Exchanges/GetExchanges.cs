@@ -33,7 +33,7 @@ namespace Skymey_dia_exchanges.Actions.Exchanges
                 #region DIA
                 _request.AddHeader("Content-Type", "application/json");
                 var r = _client.Execute(_request).Content;
-                List<Skymey_main_lib.Models.Exchanges> ex = new JavaScriptSerializer().Deserialize<List<Skymey_main_lib.Models.Exchanges>>(r);
+                HashSet<Skymey_main_lib.Models.Exchanges> ex = new JavaScriptSerializer().Deserialize<List<Skymey_main_lib.Models.Exchanges>>(r).ToHashSet();
                 #endregion
                 foreach (var item in ex)
                 {
