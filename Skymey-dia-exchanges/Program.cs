@@ -49,7 +49,7 @@ namespace Skymey_dia_exchanges
             GetExchanges ge = new GetExchanges();
             while (!stoppingToken.IsCancellationRequested)
             {
-                ge.GetExchangesFroDia();
+                ge.GetExchangesFromDia();
                 await Task.Delay(TimeSpan.FromSeconds(60));
             }
         }

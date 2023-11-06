@@ -25,7 +25,7 @@ namespace Skymey_dia_exchanges.Actions.Exchanges
             _db = ApplicationContext.Create(_mongoClient.GetDatabase("skymey"));
         }
 
-        public async Task GetExchangesFroDia() {
+        public async Task GetExchangesFromDia() {
             #region DIA
             _request.AddHeader("Content-Type", "application/json");
             var r = _client.Execute(_request).Content;
