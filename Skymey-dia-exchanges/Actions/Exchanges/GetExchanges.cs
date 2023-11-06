@@ -6,12 +6,13 @@ using Skymey_dia_exchanges.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Skymey_dia_exchanges.Actions.Exchanges
 {
-    public class GetExchanges : IDisposable
+    public class GetExchanges : ServiceBase
     {
         private RestClient _client;
         private RestRequest _request;
@@ -25,32 +26,41 @@ namespace Skymey_dia_exchanges.Actions.Exchanges
             _db = ApplicationContext.Create(_mongoClient.GetDatabase("skymey"));
         }
 
-        public async Task GetExchangesFromDia() {
-            #region DIA
-            _request.AddHeader("Content-Type", "application/json");
-            var r = _client.Execute(_request).Content;
-            List<Skymey_dia_exchanges.Models.Exchanges> ex = new JavaScriptSerializer().Deserialize<List<Skymey_dia_exchanges.Models.Exchanges>>(r);
-            #endregion
-            foreach (var item in ex)
+        public void GetExchangesFromDia() {
+            try
             {
-                Console.WriteLine(item.Name);
-                var exchange = (from i in _db.Exchanges where i.Name == item.Name select i).FirstOrDefault();
-                if (exchange == null)
+                #region DIA
+                _request.AddHeader("Content-Type", "application/json");
+                var r = _client.Execute(_request).Content;
+                List<Skymey_dia_exchanges.Models.Exchanges> ex = new JavaScriptSerializer().Deserialize<List<Skymey_dia_exchanges.Models.Exchanges>>(r);
+                #endregion
+                foreach (var item in ex)
                 {
-                    item._id = ObjectId.GenerateNewId();
-                    item.Update = DateTime.UtcNow;
-                    await _db.Exchanges.AddAsync(item);
+                    
+                        Console.WriteLine(item.Name);
+                        var exchange = (from i in _db.Exchanges where i.Name == item.Name select i).FirstOrDefault();
+
+                        if (exchange == null)
+                        {
+                            item._id = ObjectId.GenerateNewId();
+                            item.Update = DateTime.UtcNow;
+                            _db.Exchanges.Add(item);
+                        }
+                        else
+                        {
+                            exchange.Trades = item.Trades;
+                            exchange.Volume24h = item.Volume24h;
+                            exchange.Pairs = item.Pairs;
+                            exchange.Update = DateTime.UtcNow;
+                            _db.Exchanges.Update(exchange);
+                        }
+                    
                 }
-                else
-                {
-                    exchange.Trades = item.Trades;
-                    exchange.Volume24h = item.Volume24h;
-                    exchange.Pairs = item.Pairs;
-                    exchange.Update = DateTime.UtcNow;
-                    _db.Exchanges.Update(exchange);
-                }
+                _db.SaveChanges();
             }
-            await _db.SaveChangesAsync();
+            catch (Exception ex)
+            {
+            }
         }
 
 

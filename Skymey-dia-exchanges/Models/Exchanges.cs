@@ -19,7 +19,7 @@ namespace Skymey_dia_exchanges.Models
         [JsonPropertyName("Name")]
         public string Name { get; set; }
         [JsonPropertyName("Volume24h")]
-        public float Volume24h { get; set; }
+        public double Volume24h { get; set; }
         [JsonPropertyName("Trades")]
         public int Trades { get; set; }
         [JsonPropertyName("Pairs")]
@@ -28,6 +28,8 @@ namespace Skymey_dia_exchanges.Models
         public string Type { get; set; }
         [JsonPropertyName("Blockchain")]
         public string Blockchain { get; set; }
+        [JsonPropertyName("ScraperActive")]
+        public bool ScraperActive { get; set; }
         public DateTime Update {  get; set; }
     }
 }

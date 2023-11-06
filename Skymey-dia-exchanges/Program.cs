@@ -20,8 +20,16 @@ namespace Skymey_dia_exchanges
 
     class Program
     {
+        private static RestClient _client;
+        private static RestRequest _request;
+        private static MongoClient _mongoClient;
+        private static ApplicationContext _db;
         static async Task Main(string[] args)
         {
+            _client = new RestClient("https://api.diadata.org/v1/exchanges");
+            _request = new RestRequest("https://api.diadata.org/v1/exchanges", Method.Get);
+            _mongoClient = new MongoClient("mongodb://127.0.0.1:27017");
+            _db = ApplicationContext.Create(_mongoClient.GetDatabase("skymey"));
             var builder = new HostBuilder()
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
@@ -44,13 +52,19 @@ namespace Skymey_dia_exchanges
 
     public class MySpecialService : BackgroundService
     {
+        GetExchanges ge = new GetExchanges();
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            GetExchanges ge = new GetExchanges();
             while (!stoppingToken.IsCancellationRequested)
             {
-                await ge.GetExchangesFromDia();
-                await Task.Delay(TimeSpan.FromSeconds(60));
+                try
+                {
+                    ge.GetExchangesFromDia();
+                    await Task.Delay(TimeSpan.FromSeconds(60));
+                }
+                catch (Exception ex)
+                {
+                }
             }
         }
     }
