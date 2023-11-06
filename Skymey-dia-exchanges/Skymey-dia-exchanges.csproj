@@ -11,6 +11,8 @@
   <ItemGroup>
     <PackageReference Include="EntityFrameworkCore.Extensions" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
     <PackageReference Include="MongoDB.EntityFrameworkCore" Version="7.0.0-preview.1" />
     <PackageReference Include="Nancy" Version="2.0.0" />
     <PackageReference Include="RestSharp" Version="110.2.0" />
