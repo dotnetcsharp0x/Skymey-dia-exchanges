@@ -10,7 +10,6 @@ using Nancy.Json;
 using RestSharp;
 using Skymey_dia_exchanges.Actions.Exchanges;
 using Skymey_dia_exchanges.Data;
-using Skymey_dia_exchanges.Models;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
