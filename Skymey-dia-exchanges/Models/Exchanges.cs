@@ -28,5 +28,6 @@ namespace Skymey_dia_exchanges.Models
         public string Type { get; set; }
         [JsonPropertyName("Blockchain")]
         public string Blockchain { get; set; }
+        public DateTime Update {  get; set; }
     }
 }

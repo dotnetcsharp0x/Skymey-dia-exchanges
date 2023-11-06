@@ -31,11 +31,12 @@ namespace Skymey_dia_exchanges
                 ApplicationContext db = ApplicationContext.Create(_mongoClient.GetDatabase("skymey"));
                 foreach (var item in ex)
                 {
-                    item._id = ObjectId.GenerateNewId();
                     Console.WriteLine(item.Name);
-                    var exchange = (from i in db.Exchanges select i).FirstOrDefault();
+                    var exchange = (from i in db.Exchanges where i.Name == item.Name select i).FirstOrDefault();
                     if(exchange == null)
                     {
+                        item._id = ObjectId.GenerateNewId();
+                        item.Update = DateTime.UtcNow;
                         await db.Exchanges.AddAsync(item);
                     }
                     else
@@ -43,12 +44,13 @@ namespace Skymey_dia_exchanges
                         exchange.Trades = item.Trades;
                         exchange.Volume24h = item.Volume24h;
                         exchange.Pairs = item.Pairs;
-                        db.Exchanges.Update(item);
+                        exchange.Update = DateTime.UtcNow;
+                        db.Exchanges.Update(exchange);
                     }
                 }
                 await db.SaveChangesAsync();
-                int hours = 24;                
-                Thread.Sleep(1000*60*60*hours);
+                int seconds = 24;                
+                Thread.Sleep(1000*seconds);
             }
         }
     }
