@@ -37,25 +37,24 @@ namespace Skymey_dia_exchanges.Actions.Exchanges
                 #endregion
                 foreach (var item in ex)
                 {
-                    
-                        Console.WriteLine(item.Name);
-                        var exchange = (from i in _db.Exchanges where i.Name == item.Name select i).FirstOrDefault();
+                    Console.WriteLine(item.Name);
+                    var exchange = (from i in _db.Exchanges where i.Name == item.Name select i).FirstOrDefault();
 
-                        if (exchange == null)
-                        {
-                            item._id = ObjectId.GenerateNewId();
-                            item.Update = DateTime.UtcNow;
-                            _db.Exchanges.Add(item);
-                        }
-                        else
-                        {
-                            exchange.Trades = item.Trades;
-                            exchange.Volume24h = item.Volume24h;
-                            exchange.Pairs = item.Pairs;
-                            exchange.Update = DateTime.UtcNow;
-                            _db.Exchanges.Update(exchange);
-                        }
-                    
+                    if (exchange == null)
+                    {
+                        item._id = ObjectId.GenerateNewId();
+                        item.Update = DateTime.UtcNow;
+                        _db.Exchanges.Add(item);
+                    }
+                    else
+                    {
+                        exchange.Trades = item.Trades;
+                        exchange.Volume24h = item.Volume24h;
+                        exchange.Pairs = item.Pairs;
+                        exchange.Update = DateTime.UtcNow;
+                        _db.Exchanges.Update(exchange);
+                    }
+
                 }
                 _db.SaveChanges();
             }
@@ -63,7 +62,6 @@ namespace Skymey_dia_exchanges.Actions.Exchanges
             {
             }
         }
-
 
         public void Dispose()
         {
